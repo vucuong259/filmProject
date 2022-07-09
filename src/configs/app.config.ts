@@ -14,7 +14,7 @@ class AppConfig {
   get jwtConfig() {
     return {
       secretKey: process.env.JWT_SECRET_KEY,
-      expiresIn: parseInt(process.env.JWT_EXPIRATION),
+      expiresIn: process.env.JWT_EXPIRATION,
     };
   }
 }

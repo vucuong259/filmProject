@@ -10,7 +10,7 @@ import { UserModule } from './modules/user/user.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env',
+      envFilePath: ['.env'],
     }),
     MongooseModule.forRootAsync({
       useFactory: () => appConfig.mongooseConfig,

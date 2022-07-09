@@ -4,24 +4,30 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-  {
-    "name": "Attach by Process ID",
-    "processId": "${command:PickProcess}",
-    "request": "attach",
-    "skipFiles": [
-      "<node_internals>/**"
-    ],
-    "type": "pwa-node"
-  },
+    {
+      "name": "Attach by Process ID",
+      "processId": "${command:PickProcess}",
+      "request": "attach",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
     {
       "type": "node",
       "request": "launch",
       "name": "Debug property Services",
       //working dir : /src/dxs-o2o-backend/services/[service_name]
-      "args": ["${workspaceFolder}/services/property/src/main.ts"],
-      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+      "args": [
+        "${workspaceFolder}"
+      ],
+      "runtimeArgs": [
+        "--nolazy",
+        "-r",
+        "ts-node/register"
+      ],
       "sourceMaps": true,
-      "cwd": "${workspaceRoot}/services/property",
+      "cwd": "${workspaceRoot}",
       "protocol": "inspector",
       "env": {
         "NODE_ENV": "local"
