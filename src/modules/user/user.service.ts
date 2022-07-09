@@ -79,8 +79,8 @@ export class UserService {
     return `This action returns all user`;
   }
 
-  async findOne(id: string) {
-    return await this.userModel.findOne({ _id: id }).select('-password').lean();
+  async findOne(query: any) {
+    return await this.userModel.findOne(query).select('-password').lean();
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

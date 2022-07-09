@@ -17,7 +17,10 @@ export class AuthService {
   ) {}
 
   async validateUser(jwtPayload: JwtPayload): Promise<any> {
-    const user = await this.userService.findOne(jwtPayload.userId);
+    const user = await this.userService.findOne({
+      _id: jwtPayload.userId,
+      status: true,
+    });
     if (!user) {
       throw new UnauthorizedException();
     }
