@@ -36,7 +36,6 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   findAll(@CurrentUser() user) {
-    console.log(user);
     return this.userService.findAll();
   }
 

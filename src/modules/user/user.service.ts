@@ -12,6 +12,7 @@ import { IUser } from './interfaces/user.interface';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from '../auth/auth.service';
+import { User } from './entities/user.entity';
 
 const saltOrRounds = 10;
 @Injectable()
@@ -79,7 +80,7 @@ export class UserService {
     return `This action returns all user`;
   }
 
-  async findOne(query: any) {
+  async findOne(query: any): Promise<User> {
     return await this.userModel.findOne(query).select('-password').lean();
   }
 
