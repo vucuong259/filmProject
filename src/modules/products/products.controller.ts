@@ -22,6 +22,11 @@ export class ProductsController {
     return this.productsService.create(createProductDto);
   }
 
+  @Post('category')
+  createCategory(@Body() createProductDto: CreateProductDto) {
+    return this.productsService.create(createProductDto);
+  }
+
   @Get()
   findAll() {
     return this.productsService.findAll();

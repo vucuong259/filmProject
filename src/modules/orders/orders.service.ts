@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CommonConst } from '../../shared/constant/common.const';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
-import { IProduct } from './interfaces/product.interface';
+import { CreateOrderDto } from './dto/create-orders.dto';
+import { UpdateOrderDto } from './dto/update-orders.dto';
+import { IOrder } from './interfaces/orders.interface';
 
 @Injectable()
-export class ProductsService {
+export class OrdersService {
   constructor(
     @InjectModel(CommonConst.PRODUCT_SCHEMA_NAME)
-    private readonly productModel: Model<IProduct>,
+    private readonly productModel: Model<IOrder>,
   ) {}
-  create(createProductDto: CreateProductDto) {
+  create(createOrderDto: CreateOrderDto) {
     return 'This action adds a new product';
   }
 
@@ -24,7 +24,7 @@ export class ProductsService {
     return `This action returns a #${id} product`;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
+  update(id: number, updateOrderDto: UpdateOrderDto) {
     return `This action updates a #${id} product`;
   }
 
