@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 import { IProduct } from '../interfaces/product.interface';
 
-const SpecSchema = new mongoose.Schema(
+const SpecSchema = new Schema(
   {
     key: { type: String, required: true, unique: true },
     value: { type: String },
@@ -10,9 +10,9 @@ const SpecSchema = new mongoose.Schema(
   { _id: false },
 );
 
-export const ProductSchema = new mongoose.Schema<IProduct>(
+export const ProductSchema = new Schema(
   {
-    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+    category: { type: Schema.Types.ObjectId, ref: 'Category' },
     code: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     price: { type: Number },
@@ -21,7 +21,7 @@ export const ProductSchema = new mongoose.Schema<IProduct>(
     specs: { type: [SpecSchema] },
     description: { type: String },
     image: { type: String },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
   },
   {
     timestamps: true,

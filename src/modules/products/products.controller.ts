@@ -6,11 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CurrentUser } from '../../nest/decorator/user.decorator';
+import { User } from '../user/entities/user.entity';
 
 @ApiTags('products')
 @Controller('products')
@@ -23,8 +28,13 @@ export class ProductsController {
   }
 
   @Post('category')
-  createCategory(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  createCategory(
+    @CurrentUser() user,
+    @Body() createCategoryDto: CreateCategoryDto,
+  ) {
+    return this.productsService.createCategory(user, createCategoryDto);
   }
 
   @Get()
