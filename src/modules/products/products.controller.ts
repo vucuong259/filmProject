@@ -41,6 +41,10 @@ export class ProductsController {
   findAll() {
     return this.productsService.findAll();
   }
+  @Get('/category')
+  findAllCategory() {
+    return this.productsService.findAllCategory();
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CommonConst } from '../../shared/constant/common.const';
+import { User } from '../user/entities/user.entity';
 import { IUser } from '../user/interfaces/user.interface';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ICategory } from './interfaces/category.interface';
 import { IProduct } from './interfaces/product.interface';
+import { CategoryDocument } from './schemas/category.schema';
 
 @Injectable()
 export class ProductsService {
@@ -15,7 +16,7 @@ export class ProductsService {
     @InjectModel(CommonConst.PRODUCT_SCHEMA_NAME)
     private readonly productModel: Model<IProduct>,
     @InjectModel(CommonConst.CATEGORY_SCHEMA_NAME)
-    private readonly categoryModel: Model<ICategory>,
+    private readonly categoryModel: Model<CategoryDocument>,
   ) {}
   create(createProductDto: CreateProductDto) {
     return 'This action adds a new product';
@@ -23,11 +24,13 @@ export class ProductsService {
 
   async createCategory(user: IUser, createCategoryDto: CreateCategoryDto) {
     try {
-      const newCategory: any = createCategoryDto;
-      newCategory.createBy = user._id;
-      await this.categoryModel.create(createCategoryDto);
+      const newCategory = await this.categoryModel.create({
+        ...createCategoryDto,
+        createdBy: user._id,
+      });
       return {
         msg: 'Thành công',
+        response: newCategory,
       };
     } catch (error) {
       return { msg: error };
@@ -36,6 +39,15 @@ export class ProductsService {
 
   findAll() {
     return `This action returns all products`;
+  }
+  async findAllCategory() {
+    const allCategory = await this.categoryModel
+      .find({ isDisabled: false })
+      .lean()
+      .exec();
+    return {
+      response: allCategory,
+    };
   }
 
   findOne(id: number) {
