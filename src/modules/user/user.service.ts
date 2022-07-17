@@ -4,27 +4,25 @@ import {
   Inject,
   Injectable,
 } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { CreateUserDto } from './dto/create-user.dto';
+import { UserCreateDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { IUser } from './interfaces/user.interface';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from '../auth/auth.service';
 import { User } from './entities/user.entity';
+import { UserRepository } from './repositories/user.repository';
 
 const saltOrRounds = 10;
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel('User') private readonly userModel: Model<IUser>,
+    private userRepository: UserRepository,
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
   ) {}
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: UserCreateDto) {
     try {
-      const existUser = await this.userModel.findOne({
+      const existUser = await this.userRepository.findOneWithFilters({
         $or: [
           { username: createUserDto.username },
           { email: createUserDto.email },
@@ -38,7 +36,7 @@ export class UserService {
       const salt = bcrypt.genSaltSync(saltOrRounds);
       const hashPassword = await bcrypt.hash(createUserDto.password, salt);
       createUserDto.password = hashPassword;
-      await this.userModel.create(createUserDto);
+      await this.userRepository.create(createUserDto);
       return {
         msg: 'Thành công',
       };
@@ -48,14 +46,12 @@ export class UserService {
   }
 
   async login(loginDto: LoginDto) {
-    const existUser = await this.userModel
-      .findOne({
-        $or: [
-          { username: loginDto.usernameOrEmail },
-          { email: loginDto.usernameOrEmail },
-        ],
-      })
-      .lean();
+    const existUser = await this.userRepository.findOneWithFilters({
+      $or: [
+        { username: loginDto.usernameOrEmail },
+        { email: loginDto.usernameOrEmail },
+      ],
+    });
     if (!existUser) {
       throw new BadRequestException({
         error: `Email or password mismatch`,
@@ -81,7 +77,7 @@ export class UserService {
   }
 
   async findOne(query: any): Promise<User> {
-    return await this.userModel.findOne(query).select('-password').lean();
+    return await this.userRepository.findOneWithFilters(query);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

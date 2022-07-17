@@ -8,6 +8,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { IProduct } from './interfaces/product.interface';
+import { CategoryRepository } from './repositories/category.repository';
 import { CategoryDocument } from './schemas/category.schema';
 
 @Injectable()
@@ -15,8 +16,7 @@ export class ProductsService {
   constructor(
     @InjectModel(CommonConst.PRODUCT_SCHEMA_NAME)
     private readonly productModel: Model<IProduct>,
-    @InjectModel(CommonConst.CATEGORY_SCHEMA_NAME)
-    private readonly categoryModel: Model<CategoryDocument>,
+    private categoryRepository: CategoryRepository,
   ) {}
   create(createProductDto: CreateProductDto) {
     return 'This action adds a new product';
@@ -24,7 +24,7 @@ export class ProductsService {
 
   async createCategory(user: IUser, createCategoryDto: CreateCategoryDto) {
     try {
-      const newCategory = await this.categoryModel.create({
+      const newCategory = await this.categoryRepository.create({
         ...createCategoryDto,
         createdBy: user._id,
       });
@@ -41,10 +41,9 @@ export class ProductsService {
     return `This action returns all products`;
   }
   async findAllCategory() {
-    const allCategory = await this.categoryModel
-      .find({ isDisabled: false })
-      .lean()
-      .exec();
+    const allCategory = await this.categoryRepository.findWithFilters({
+      isDisabled: false,
+    });
     return {
       response: allCategory,
     };
