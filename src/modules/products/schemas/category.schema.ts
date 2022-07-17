@@ -1,20 +1,22 @@
-import { Schema, Document } from 'mongoose';
-import { CommonConst } from '../../../shared/constant/common.const';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
+import { User } from '../../user/schemas/User.schema';
 
-export const CategorySchema = new Schema(
-  {
-    name: { type: String, required: true },
-    isDisabled: { type: Boolean, default: false },
-    description: { type: String },
-    isChildOf: { type: Schema.Types.ObjectId, default: null },
-    createdBy: {
-      type: Schema.Types.ObjectId,
-      ref: CommonConst.USER_SCHEMA_NAME,
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
+export type CategoryDocument = Category & mongoose.Document;
 
-export type CategoryDocument = any & Document;
+@Schema({
+  timestamps: true,
+})
+export class Category {
+  @Prop({ required: true })
+  name: string;
+  @Prop({ default: false })
+  isDisabled: boolean;
+  @Prop()
+  description: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId })
+  isChildOf: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  createdBy: User;
+}
+export const CategorySchema = SchemaFactory.createForClass(Category);
