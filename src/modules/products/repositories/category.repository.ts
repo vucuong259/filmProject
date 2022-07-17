@@ -20,6 +20,6 @@ export class CategoryRepository {
   async findWithFilters(filter: any) {
     return await this.categoryModel
       .find(filter)
-      .populate({ path: 'createdBy', select: 'username' });
+      .populate([{ path: 'isChildOf', select: 'name' }, 'createdBy']);
   }
 }

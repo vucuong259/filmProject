@@ -14,7 +14,7 @@ export class Category {
   isDisabled: boolean;
   @Prop()
   description: string;
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
   isChildOf: string;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   createdBy: User;
