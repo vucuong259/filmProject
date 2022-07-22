@@ -1,0 +1,79 @@
+{
+  "folders": [
+    {
+      "path": "..\\services"
+    },
+    {
+      "path": "."
+    },
+    {
+      "path": "..\\.git"
+    }
+  ],
+  "settings": {
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "typescript.validate.enable": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 120,
+    "editor.rulers": [
+      {
+        "column": 120,
+        "color": "red"
+      }
+    ],
+    "eslint.options": {
+      "code": 120
+    },
+    "prettier.printWidth": 120,
+    "prettier.singleQuote": true,
+    "[html]": {
+      "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[vue]": {
+      "editor.defaultFormatter": "octref.vetur"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[css]": {
+      "editor.defaultFormatter": "sibiraj-s.vscode-scss-formatter"
+    },
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "[javascript]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[scss]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "editor.minimap.maxColumn": 120,
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "pwa-node",
+        "request": "launch",
+        "name": "Launch Program",
+        "skipFiles": [
+          "<node_internals>/**"
+        ],
+        "program": "c:\\MyProject\\src\\modules\\user\\user.service.ts",
+        "__workspaceFolder": "c:\\MyProject\\src\\modules\\user",
+        "outFiles": [
+          "${workspaceFolder}/**/*.js"
+        ]
+      }
+    ]
+  }
+}

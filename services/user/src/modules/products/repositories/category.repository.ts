@@ -17,9 +17,16 @@ export class CategoryRepository {
   async findAll() {
     return await this.categoryModel.find().populate('user');
   }
-  async findWithFilters(filter: any) {
-    return await this.categoryModel
-      .find(filter)
-      .populate([{ path: 'isChildOf', select: 'name' }, 'createdBy']);
+  async findWithFilters(query: any, populate: any, projection = {}) {
+    if (query.isPaging) {
+      const page = query.page || 1;
+      const pageSize = query.pageSize || 20;
+      return await this.categoryModel
+        .find(query, projection)
+        .populate(populate)
+        .skip(page * pageSize - pageSize)
+        .limit(pageSize);
+    }
+    return await this.categoryModel.find(query).populate(populate);
   }
 }

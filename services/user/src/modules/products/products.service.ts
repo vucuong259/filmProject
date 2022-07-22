@@ -41,9 +41,12 @@ export class ProductsService {
     return `This action returns all products`;
   }
   async findAllCategory() {
-    const allCategory = await this.categoryRepository.findWithFilters({
-      isDisabled: false,
-    });
+    const allCategory = await this.categoryRepository.findWithFilters(
+      {
+        isDisabled: false,
+      },
+      'createdBy',
+    );
     return {
       response: allCategory,
     };
